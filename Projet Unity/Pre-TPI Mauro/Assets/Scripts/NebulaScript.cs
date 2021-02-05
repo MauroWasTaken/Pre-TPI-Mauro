@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BackgroundScript : MonoBehaviour
+public class NebulaScript : MonoBehaviour
 {
     [SerializeField]
     float speed;
@@ -11,7 +11,7 @@ public class BackgroundScript : MonoBehaviour
     {
         if (this.gameObject.transform.position.y <= -20.25)
         {
-            this.gameObject.transform.position = new Vector3(0, this.gameObject.transform.position.y + 40.96f, 0);
+            this.gameObject.transform.position = new Vector3(0, this.gameObject.transform.position.y + 40.96f, 100);
         }
         this.gameObject.transform.position = this.gameObject.transform.position + new Vector3(0, -1 * speed * Time.deltaTime, 0);
     }
