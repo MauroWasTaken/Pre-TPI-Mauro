@@ -98,7 +98,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   laserBall: {fileID: 1244341408369947877, guid: ff2a39202ab2c714fa5895b8a00c48a8,
     type: 3}
-  speed: 1
+  speed: 0.2
 --- !u!61 &5473783305835242196
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -9,17 +9,19 @@ public class PlayerScript : MonoBehaviour
     private float fireCooldown=1;
     [SerializeField]
     private GameObject Lazer;
-    private Rigidbody2D rigidbody2D;
+    private Rigidbody2D characterBody;
+    private GameScript gameScript;
     [SerializeField]
     float Speed = 15;
     // Update is called once per frame
     private void Start()
     {
-        rigidbody2D = this.gameObject.GetComponent<Rigidbody2D>();
+        characterBody = this.gameObject.GetComponent<Rigidbody2D>();
+        gameScript = Object.FindObjectOfType<GameScript>();
     }
     void Update()
     {
-        rigidbody2D.position=rigidbody2D.position + new Vector2(Input.GetAxis("Horizontal") * Speed * Time.deltaTime,0);
+        characterBody.position= characterBody.position + new Vector2(Input.GetAxis("Horizontal") * Speed * Time.deltaTime,0);
         if (Input.GetButton("Fire1"))
         {
             Fire();
@@ -30,14 +32,15 @@ public class PlayerScript : MonoBehaviour
     {
         if (fireCooldown >= 1f/fireRate)
         {
-            Instantiate(Lazer, this.gameObject.transform.position + new Vector3(0.006f,1.2f,0), this.gameObject.transform.rotation);
+            Instantiate(Lazer, this.gameObject.transform.position + new Vector3(0.006f,0.5f,2), this.gameObject.transform.rotation);
             fireCooldown = 0;
         }
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.layer == 11)
+        if (collision.gameObject.layer == 11) 
         {
+            gameScript.PlayerKilled();
             Destroy(this.gameObject);
             Destroy(collision.gameObject);
         }

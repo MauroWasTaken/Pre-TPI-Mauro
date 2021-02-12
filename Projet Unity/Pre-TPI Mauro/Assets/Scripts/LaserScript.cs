@@ -6,7 +6,13 @@ public class LaserScript : MonoBehaviour
 {
     [SerializeField]
     private float speed = 20;
+    private GameScript gameScript;
     // Update is called once per frame
+    void Start()
+    {
+        gameScript = Object.FindObjectOfType<GameScript>();
+
+    }
     void Update()
     {
         this.gameObject.transform.position = this.gameObject.transform.position + new Vector3(0, speed * Time.deltaTime, 0);
@@ -15,7 +21,20 @@ public class LaserScript : MonoBehaviour
     {
         if (collision.gameObject.layer != 10)
         {
-            Destroy(this.gameObject);
+            
         }
+        switch (collision.gameObject.layer)
+        {
+            case 11:
+                gameScript.AddScore(50);
+                break;
+            case 12:
+                gameScript.ComboBreaker();
+                break;
+            default:
+                return;
+
+        }
+        Destroy(this.gameObject);
     }
 }
