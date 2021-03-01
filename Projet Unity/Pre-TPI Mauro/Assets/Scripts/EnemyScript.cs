@@ -14,15 +14,18 @@ public class EnemyScript : MonoBehaviour
 
     private BoxCollider2D triggerBox2D;
     private int movementMultiplier = -1;
+    [SerializeField]
     private float movementTiming = 2;
     private float movementCooldown = 0;
     private float movementDistance = 0.1f;
+
+    
 
 
     // Start is called before the first frame update
     void Start()
     {
-        fireTiming = Random.Range(3f,10f);
+        fireTiming = Random.Range(3f,30f);
         fireCooldown = 0;
         gameScript = Object.FindObjectOfType<GameScript>();
     }
@@ -33,7 +36,7 @@ public class EnemyScript : MonoBehaviour
         if (fireCooldown >= fireTiming)
         {
             Instantiate(laserBall, this.gameObject.transform.position - new Vector3(0, 0.5f, 0), this.gameObject.transform.rotation);
-            fireTiming = Random.Range(3f,10f);
+            fireTiming = Random.Range(5f, 12f);
             fireCooldown = 0;
         }
         if (movementCooldown>=movementTiming)
@@ -63,8 +66,9 @@ public class EnemyScript : MonoBehaviour
     }
     public void Advance()
     {
-
-
         movementMultiplier = movementMultiplier * (-1);
+        this.transform.position = this.transform.position + new Vector3(movementDistance * movementMultiplier, -0.5f, 0);
+
     }
+    public int MovementMultiplier { get => movementMultiplier;}
 }
