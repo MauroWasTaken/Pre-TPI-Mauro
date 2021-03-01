@@ -211,7 +211,7 @@ Transform:
   m_GameObject: {fileID: 4232593913945680142}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -3.5, z: 0}
-  m_LocalScale: {x: 0.8, y: 0.8, z: 1}
+  m_LocalScale: {x: 0.6, y: 0.6, z: 1}
   m_Children:
   - {fileID: 4232593912634852429}
   - {fileID: 4232593912703074826}
@@ -232,7 +232,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fireRate: 2
   Lazer: {fileID: 6665911209274147255, guid: 12de124787190c94cbae755ac7199c20, type: 3}
-  Speed: 8
+  Speed: 6
 --- !u!50 &4232593913945680139
 Rigidbody2D:
   serializedVersion: 4

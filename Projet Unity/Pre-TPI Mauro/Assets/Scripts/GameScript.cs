@@ -24,12 +24,14 @@ public class GameScript : MonoBehaviour
     private bool playerAlive=false;
     [SerializeField]
     private GameObject livesLabel;
+    private List<GameObject> enemyList; 
 
     // Start is called before the first frame update
     void Start()
     {
         SpawnEnemies(2);
-        playerLives = 3;
+        playerLives = 4;
+        enemyList = new List<GameObject>();
     }
 
     // Update is called once per frame
@@ -42,9 +44,9 @@ public class GameScript : MonoBehaviour
     {
         for(int i = 0; i < rows; i++)
         {
-            for (int j = 0; j < 11; j++)
+            for (int j = 0; j < 16; j++)
             {
-                Instantiate(enemy, new Vector3(-7.0f+1.5f*j, 4f + (-2f * i), 0),transform.rotation);
+                Instantiate(enemy, new Vector3(-7f+1*j, 4f + (-1.5f * i), 0),transform.rotation);
                 numberEnemies++;
             }
         }
@@ -102,6 +104,13 @@ public class GameScript : MonoBehaviour
             Instantiate(player, new Vector3(0, -3.5f, 0), transform.rotation);
             playerAlive = true;
             deathTimer = 2f;
+        }
+    }
+    public void ChangeAlienDirection()
+    {
+        foreach (GameObject alien in enemyList)
+        {
+            alien.GetComponent<EnemyScript>().Advance();
         }
     }
 }

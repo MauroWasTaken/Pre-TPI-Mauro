@@ -9,21 +9,25 @@ public class EnemyScript : MonoBehaviour
     [SerializeField]
     private GameObject laserBall;
     [SerializeField]
-    private float speed;
-    private float turningTime;
-    private float turningCounter;
-    private int directionMultiplier = -1;
+    private GameObject explosion;
     private GameScript gameScript;
+
+    private BoxCollider2D triggerBox2D;
+    private int movementMultiplier = -1;
+    private float movementTiming = 2;
+    private float movementCooldown = 0;
+    private float movementDistance = 0.1f;
+
+
     // Start is called before the first frame update
     void Start()
     {
         fireTiming = Random.Range(3f,10f);
         fireCooldown = 0;
         gameScript = Object.FindObjectOfType<GameScript>();
-        turningTime = 1 / speed;
     }
 
-    // Update is called once per frame
+    // Update is called once per frame 
     void Update()
     {
         if (fireCooldown >= fireTiming)
@@ -32,23 +36,35 @@ public class EnemyScript : MonoBehaviour
             fireTiming = Random.Range(3f,10f);
             fireCooldown = 0;
         }
-        if (turningCounter >= turningTime)
+        if (movementCooldown>=movementTiming)
         {
-            directionMultiplier = directionMultiplier * -1;
-            turningCounter = 0;
+            Move();
+            movementCooldown = 0;
         }
-        this.gameObject.GetComponent<Rigidbody2D>().position = this.gameObject.GetComponent<Rigidbody2D>().transform.position + new Vector3(speed*directionMultiplier*Time.deltaTime,0);
         fireCooldown += Time.deltaTime;
-        turningCounter += Time.deltaTime;
-    }
-    private void OnTriggerEnter2D(Collider2D collision)
+        movementCooldown += Time.deltaTime;
+
+    } 
+    private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.layer == 10)
         {
+            ContactPoint2D contactpoint2d = collision.GetContact(0);
             Destroy(this.gameObject);
+            Instantiate(explosion, new Vector3(contactpoint2d.point.x, contactpoint2d.point.y, 0), transform.rotation);
             Destroy(collision.gameObject);
             gameScript.AddScore(100);
             gameScript.EnemyKilled();
         }
+    }
+    private void Move()
+    {
+        this.transform.position = this.transform.position + new Vector3(movementDistance* movementMultiplier,0,0);
+    }
+    public void Advance()
+    {
+
+
+        movementMultiplier = movementMultiplier * (-1);
     }
 }
