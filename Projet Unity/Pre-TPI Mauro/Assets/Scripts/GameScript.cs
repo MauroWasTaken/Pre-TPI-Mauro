@@ -6,6 +6,16 @@ using System;
 
 public class GameScript : MonoBehaviour
 {
+    /// <summary>
+    /// 1: Main menu
+    /// 2: Game
+    /// 3: Gameover sequence
+    /// </summary>
+    private int gameState = 2;
+    // menu variables
+
+
+    //Game variables
     [SerializeField]
     private GameObject enemy;
     private int numberEnemies=0;
@@ -24,20 +34,46 @@ public class GameScript : MonoBehaviour
     private bool playerAlive=false;
     [SerializeField]
     private GameObject livesLabel;
-    private List<GameObject> enemyList; 
+
+    
 
     // Start is called before the first frame update
     void Start()
     {
         SpawnEnemies(2);
         playerLives = 4;
-        enemyList = new List<GameObject>();
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        CheckSpawns();
+        UpdateGameState();
+    }
+    private void ChangeGameState(int stateToChange)
+    {
+
+    }
+    private void UpdateGameState()
+    {
+        /// <summary>
+        /// 1: Main menu
+        /// 2: Game
+        /// 3: GamePause
+        /// 4: Gameover sequence
+        /// </summary>
+        switch (gameState)
+        {
+            case 1:
+                break;
+            case 2:
+                CheckSpawns();
+                break;
+            case 3:
+                break;
+            default:    
+                break;
+        }
     }
 
     void SpawnEnemies(int rows)
@@ -104,13 +140,6 @@ public class GameScript : MonoBehaviour
             Instantiate(player, new Vector3(0, -3.5f, 0), transform.rotation);
             playerAlive = true;
             deathTimer = 2f;
-        }
-    }
-    public void ChangeAlienDirection()
-    {
-        foreach (GameObject alien in enemyList)
-        {
-            alien.GetComponent<EnemyScript>().Advance();
         }
     }
 }

@@ -69,6 +69,7 @@
     <Compile Include="Assets\Scripts\GameScript.cs" />
     <Compile Include="Assets\Scripts\LaserScript.cs" />
     <Compile Include="Assets\Scripts\LazerBallScript.cs" />
+    <Compile Include="Assets\Scripts\MainMenuScript.cs" />
     <Compile Include="Assets\Scripts\NebulaScript.cs" />
     <Compile Include="Assets\Scripts\PlanetScript.cs" />
     <Compile Include="Assets\Scripts\PlayerScript.cs" />

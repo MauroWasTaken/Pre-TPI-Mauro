@@ -26,6 +26,15 @@ public class PlayerScript : MonoBehaviour
         {
             Fire();
         }
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            Time.timeScale = 0.4f;
+        }
+        if (Input.GetKeyDown(KeyCode.O)) 
+        { 
+
+            Time.timeScale = 1f;
+        }
         fireCooldown += Time.deltaTime;
     }
     void Fire()
