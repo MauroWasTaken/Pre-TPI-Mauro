@@ -18,7 +18,7 @@ public class EnemyScript : MonoBehaviour
     private float movementTiming = 2;
     private float movementCooldown = 0;
     private float movementDistance = 0.1f;
-
+    public bool isMad = false;
     
 
 
@@ -36,7 +36,15 @@ public class EnemyScript : MonoBehaviour
         if (fireCooldown >= fireTiming)
         {
             Instantiate(laserBall, this.gameObject.transform.position - new Vector3(0, 0.5f, 0), this.gameObject.transform.rotation);
-            fireTiming = Random.Range(5f, 12f);
+            if (isMad)
+            {
+                fireTiming = Random.Range(3f, 9f);
+            }
+            else
+            {
+                fireTiming = Random.Range(5f, 12f);
+            }
+            gameScript.PlaySound(0);
             fireCooldown = 0;
         }
         if (movementCooldown>=movementTiming)
@@ -55,9 +63,14 @@ public class EnemyScript : MonoBehaviour
             ContactPoint2D contactpoint2d = collision.GetContact(0);
             Destroy(this.gameObject);
             Instantiate(explosion, new Vector3(contactpoint2d.point.x, contactpoint2d.point.y, 0), transform.rotation);
+            EnemyScript[] enemies = GameObject.FindObjectsOfType<EnemyScript>();
+            if (enemies.Length == 1)
+            {
+                gameScript.NextLevel = true;
+            }
             Destroy(collision.gameObject);
             gameScript.AddScore(100);
-            gameScript.EnemyKilled();
+            gameScript.PlaySound(3);
         }
     }
     private void Move()

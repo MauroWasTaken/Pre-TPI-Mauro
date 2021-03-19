@@ -13,6 +13,8 @@ public class PlayerScript : MonoBehaviour
     private GameScript gameScript;
     [SerializeField]
     float Speed = 15;
+    [SerializeField]
+    private GameObject explosion;
     // Update is called once per frame
     private void Start()
     {
@@ -26,29 +28,26 @@ public class PlayerScript : MonoBehaviour
         {
             Fire();
         }
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            Time.timeScale = 0.4f;
-        }
-        if (Input.GetKeyDown(KeyCode.O)) 
-        { 
-
-            Time.timeScale = 1f;
-        }
         fireCooldown += Time.deltaTime;
     }
     void Fire()
     {
-        if (fireCooldown >= 1f/fireRate)
+        if (!gameScript.IsPaused)
         {
-            Instantiate(Lazer, this.gameObject.transform.position + new Vector3(0.006f,0.5f,2), this.gameObject.transform.rotation);
-            fireCooldown = 0;
+            if (fireCooldown >= 1f / fireRate)
+            {
+                Instantiate(Lazer, this.gameObject.transform.position + new Vector3(0.006f, 0.5f, 2), this.gameObject.transform.rotation).gameObject.transform.localScale = new Vector3(0.7f,0.7f,1); ;
+                fireCooldown = 0;
+                gameScript.PlaySound(0);
+            }
         }
     }
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.layer == 11) 
         {
+            ContactPoint2D contactpoint2d = collision.GetContact(0);
+            Instantiate(explosion, new Vector3(contactpoint2d.point.x, contactpoint2d.point.y, 0), transform.rotation);
             gameScript.PlayerKilled();
             Destroy(this.gameObject);
             Destroy(collision.gameObject);
