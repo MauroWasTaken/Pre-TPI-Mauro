@@ -50,20 +50,21 @@ public class GameScript : MonoBehaviour
     //life variables       
     private int playerLives;
     [SerializeField]
-    private float deathTime=0f;
-    private float deathTimer=0;
-    private bool playerAlive=false;
+    private float deathTime = 0f;
+    private float[] deathTimer = { 0, 0, 0 };
+    private bool[] playerAlive = { false, false, false };
     private bool isPaused = false;
     private bool nextLevel = false;
+    public int nbPlayers = 1;
     //level loading variables
     private int level;
     private bool enemyMad;
-    private bool SoloPlay=false;
+    private bool SoloPlay = false;
     public int GameState { get => gameState; }
-    public bool IsPaused { get => isPaused;  }
+    public bool IsPaused { get => isPaused; }
     public int Score { get => score; }
-    public bool NextLevel {set => nextLevel = value; }
-    public bool SoloPlay1 { get => SoloPlay;}
+    public bool NextLevel { set => nextLevel = value; }
+    public bool SoloPlay1 { get => SoloPlay; }
 
 
     // Start is called before the first frame update
@@ -91,7 +92,7 @@ public class GameScript : MonoBehaviour
             {
                 Destroy(singleObject);
             }
-            else if (singleObject.name=="ScoreBoard" | singleObject.name=="Options" | singleObject.name=="PauseMenu" | singleObject.name=="GameHUD" | singleObject.name=="MainMenu" | singleObject.name == "GameOver")
+            else if (singleObject.name == "ScoreBoard" | singleObject.name == "Options" | singleObject.name == "PauseMenu" | singleObject.name == "GameHUD" | singleObject.name == "MainMenu" | singleObject.name == "GameOver")
             {
                 singleObject.SetActive(false);
             }
@@ -109,6 +110,9 @@ public class GameScript : MonoBehaviour
                 AddScore(-score);
                 break;
             case 2:
+                deathTimer[0] = 0;
+                deathTimer[1] = 0;
+                deathTimer[2] = 0;
                 level = 0;
                 comboMultipier = 0;
                 AddScore(-score);
@@ -136,15 +140,24 @@ public class GameScript : MonoBehaviour
         switch (gameState)
         {
             case 1:
-                
+
                 break;
             case 2:
-                if (transitionTimer >2 & !gameHUD.activeSelf)
+                if (transitionTimer > 2 & !gameHUD.activeSelf)
                 {
-                    
+
                     gameHUD.SetActive(true);
                     levelTransition.SetActive(false);
-                    SpawnPlayer(0);
+                    if (nbPlayers == 2)
+                    {
+                        if (deathTimer[1] >= 0) SpawnPlayer(1);
+                        if (deathTimer[2] >= 0) SpawnPlayer(2);
+                    }
+                    else
+                    {
+                        SpawnPlayer(0);
+                    }
+
                     LevelStart();
                 }
                 if (gameHUD.activeSelf)
@@ -157,16 +170,16 @@ public class GameScript : MonoBehaviour
                     if (nextLevel)
                     {
                         level++;
-                        gameHUD.SetActive(false); 
-                        
+                        gameHUD.SetActive(false);
+
                         foreach (PlayerScript playerObject in GameObject.FindObjectsOfType<PlayerScript>())
                         {
                             Destroy(playerObject.gameObject);
                         }
-                            playerLives ++;
+                        playerLives++;
                         levelTransition.SetActive(true);
-                        GameObject.Find("ScoreboardLable").GetComponent<TextMeshProUGUI>().text = "Level " + (level + 1)+ "";
-                        if (level % 5==0)
+                        GameObject.Find("ScoreboardLable").GetComponent<TextMeshProUGUI>().text = "Level " + (level + 1) + "";
+                        if (level % 5 == 0)
                         {
                             GameObject.Find("ExtraMessageLabel").GetComponent<TextMeshProUGUI>().text = "The enemies grow stronger";
                         }
@@ -220,11 +233,11 @@ public class GameScript : MonoBehaviour
     }
     void SpawnEnemies(int rows)
     {
-        for(int i = 0; i < rows; i++)
+        for (int i = 0; i < rows; i++)
         {
             for (int j = 0; j < 16; j++)
             {
-                GameObject enemyObject = Instantiate(enemy, new Vector3(-7f+1*j, 4f + (-1.5f * i), 0),transform.rotation);
+                GameObject enemyObject = Instantiate(enemy, new Vector3(-7f + 1 * j, 4f + (-1.5f * i), 0), transform.rotation);
                 enemyObject.GetComponent<EnemyScript>().isMad = true;
             }
         }
@@ -242,7 +255,7 @@ public class GameScript : MonoBehaviour
         }
         scoreLabel.GetComponent<TextMeshProUGUI>().text = "Current Score : " + score;
         comboLabel.GetComponent<TextMeshProUGUI>().enabled = comboMultipier >= 4;
-        comboLabel.GetComponent<TextMeshProUGUI>().text = "Current Score : " + comboMultipier;
+        comboLabel.GetComponent<TextMeshProUGUI>().text = "Current Combo : " + comboMultipier;
     }
     public void ComboBreaker()
     {
@@ -250,27 +263,58 @@ public class GameScript : MonoBehaviour
         comboLabel.GetComponent<TextMeshProUGUI>().enabled = false;
     }
 
-    public void PlayerKilled()
+    public void PlayerKilled(int playerId)
     {
         PlaySound(2);
-        deathTimer=0;
-        playerAlive=false;
+        deathTimer[playerId] = 0;
+        playerAlive[playerId] = false;
         ComboBreaker();
-        if (playerLives==0)
+        bool playersStillAlive = false;
+        foreach (bool playerbool in playerAlive)
+        {
+            if (playerbool)
+            {
+                playersStillAlive = true;
+            }
+        }
+        if (playerLives == 0 & playersStillAlive)
+        {
+            deathTimer[playerId] = -1;
+        }
+        if (playerLives == 0 & !playersStillAlive)
         {
             ChangeGameState(3);
         }
     }
     private void CheckSpawns()
     {
-        if (!playerAlive)
+        if (nbPlayers == 2)
         {
-            if (deathTimer > deathTime)
+            for (int i = 1; i < 3; i++)
             {
-                SpawnPlayer(0);
+                if (!playerAlive[i])
+                {
+                    if (deathTimer[i] > deathTime)
+                    {
+                        SpawnPlayer(i);
+                    }
+                    if(deathTimer[i]>=0)deathTimer[i] += Time.deltaTime;
+                }
             }
-            deathTimer+=Time.deltaTime;
         }
+        else
+        {
+            if (!playerAlive[0])
+            {
+                if (deathTimer[0] > deathTime)
+                {
+                    SpawnPlayer(0);
+                }
+                deathTimer[0] += Time.deltaTime;
+            }
+        }
+
+
     }
 
     public void SpawnPlayer(int playerId)
@@ -279,9 +323,10 @@ public class GameScript : MonoBehaviour
         {
             playerLives--;
             livesLabel.GetComponent<TextMeshProUGUI>().text = playerLives + " Lives Remaining";
-            if(playerLives==1) livesLabel.GetComponent<TextMeshProUGUI>().text = playerLives + " Life Remaining";
-            Instantiate(player, new Vector3(0, -3.5f, 0), transform.rotation);
-            playerAlive = true;
+            if (playerLives == 1) livesLabel.GetComponent<TextMeshProUGUI>().text = playerLives + " Life Remaining";
+            GameObject spawnedPlayer = Instantiate(player, new Vector3(0, -3.5f, 0), transform.rotation);
+            spawnedPlayer.GetComponent<PlayerScript>().playerId = playerId;
+            playerAlive[playerId] = true;
             deathTime = 0.75f;
         }
     }
@@ -290,7 +335,8 @@ public class GameScript : MonoBehaviour
         PauseScript[] pause = Resources.FindObjectsOfTypeAll<PauseScript>();
         if (isPaused)
         {
-            if (pause[0].gameObject.activeSelf) {
+            if (pause[0].gameObject.activeSelf)
+            {
                 Time.timeScale = 1f;
                 pause[0].gameObject.SetActive(false);
                 isPaused = false;

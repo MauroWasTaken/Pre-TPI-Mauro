@@ -8,7 +8,16 @@ public class MainMenuScript : MonoBehaviour
     {
         GameScript gameScript = UnityEngine.Object.FindObjectOfType<GameScript>();
         gameScript.PlaySound(1);
+        gameScript.nbPlayers = 1;
         gameScript.ChangeGameState(2);
+    }
+    public void PlayGameCoop()
+    {
+        GameScript gameScript = UnityEngine.Object.FindObjectOfType<GameScript>();
+        gameScript.PlaySound(1);
+        gameScript.nbPlayers = 2;
+        gameScript.ChangeGameState(2);
+        
     }
     public void OpenOptions()
     {
