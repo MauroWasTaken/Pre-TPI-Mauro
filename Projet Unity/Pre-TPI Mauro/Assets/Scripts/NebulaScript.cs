@@ -1,12 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/// <summary>
+/// script qui gere le fond du jeu
+/// </summary>
 public class NebulaScript : MonoBehaviour
 {
     [SerializeField]
     float speed;
-    // Update is called once per frame
+    /// <summary>
+    /// Fonction de base de unity lancée à chaque fois qu'il y a une nouvelle image
+    /// cette fonction s'occupe de faire scroller le fond 
+    /// </summary>
     void Update()
     {
         if (this.gameObject.transform.position.y <= -20.25)

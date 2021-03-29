@@ -6,21 +6,21 @@ using System.IO;
 using TMPro;
 using UnityEngine.UI;
 using System;
-
+/// <summary>
+/// classe qui gere le scoreboard
+/// </summary>
 public class ScoreboardScript : MonoBehaviour
 {
     [SerializeField]
     private GameObject NewRecordHUD;
-    GameScript gameScript;
-    List<int> scoresValues;
-    List<string> scoresNames;
-    int finalScore;
-    void Start()
-    {
-        
-               
-    }
-    void OnEnable()
+    private GameScript gameScript;
+    private List<int> scoresValues;
+    private List<string> scoresNames;
+    private int finalScore;
+    /// <summary>
+    /// Fonction qui se lance quand le scoreboard devient actif
+    /// </summary>
+    private void OnEnable()
     {
         gameScript = GameObject.FindObjectOfType<GameScript>();
         GameObject.Find("GoBackButton").GetComponent<Button>().Select();
@@ -28,12 +28,9 @@ public class ScoreboardScript : MonoBehaviour
         CheckWorldRecord();
         
     }
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
+    /// <summary>
+    /// Check si le score est dans le top 8
+    /// </summary>
     private void CheckWorldRecord()
     {
         if (gameScript.GameState == 3)
@@ -52,6 +49,9 @@ public class ScoreboardScript : MonoBehaviour
         }
         
     }
+    /// <summary>
+    /// Enregistre les scores 
+    /// </summary>
     public void SaveWorldRecord()
     {
         if (GameObject.Find("RunText").GetComponent<TextMeshProUGUI>().text.Length > 1)
@@ -86,7 +86,10 @@ public class ScoreboardScript : MonoBehaviour
             GoBack();
         }
     }
-
+    /// <summary>
+    /// fonction unity appellée à chaque fois que il y a un changement dans le gui
+    /// Check si le joueur à appuyé enter apres avour tappé sont pseudo
+    /// </summary>
     private void OnGUI()
     {
         if (Event.current.isKey && Event.current.type == EventType.KeyDown)
@@ -100,6 +103,9 @@ public class ScoreboardScript : MonoBehaviour
             }
         }
     }
+    /// <summary>
+    /// Va chercher les scores dans un fichier CSV
+    /// </summary>
     void GetScores()
     {
         scoresValues = new List<int>();
@@ -152,6 +158,9 @@ public class ScoreboardScript : MonoBehaviour
             }
         }                   
     }
+    /// <summary>
+    /// Retourne dans le menu avec les bons paramettres
+    /// </summary>
     public void GoBack()
     {
         gameScript.ChangeGameState(1);

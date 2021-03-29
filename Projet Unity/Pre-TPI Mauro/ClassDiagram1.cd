@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="EnemyScript">
+    <Position X="0.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAYAiACJAKAABAAAAAAAAAAAAACABACAEAAwAAAAAAE=</HashCode>
+      <FileName>Assets\Scripts\EnemyScript.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ExplosionScript">
+    <Position X="4.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQCAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\ExplosionScript.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameScript">
+    <Position X="11.25" Y="0.5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>gAQggAAEACQjDAgAABQYAMgAEAMCMAwBAGAgAgAYIYI=</HashCode>
+      <FileName>Assets\Scripts\GameScript.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LaserBallScript">
+    <Position X="4.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAgAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\LaserBallScript.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LaserScript">
+    <Position X="9.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAYAAAAAACAAAAAAAAAAAAAAAAAAAQAAAAAgAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\LaserScript.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MainMenuScript">
+    <Position X="2.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAADAAAAAAAEAAAAAAAAAAAAQAQAAAA=</HashCode>
+      <FileName>Assets\Scripts\MainMenuScript.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NebulaScript">
+    <Position X="4.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\NebulaScript.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OptionsScript">
+    <Position X="6" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAQEAAAAAAAAAABAAAAAAAAAAAAAAAEAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\OptionsScript.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PauseScript">
+    <Position X="7.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAACAAAAEAAAAAAAAAAAAAAAQAAAgAA=</HashCode>
+      <FileName>Assets\Scripts\PauseScript.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PlanetScript">
+    <Position X="7.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\PlanetScript.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PlayerScript">
+    <Position X="9.5" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAYAAAAACCIABAAAAAAAAAABAAAEBAAEgAAgIAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\PlayerScript.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ScoreboardScript">
+    <Position X="2.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAYAAAAAACAQAAAAAAECAAAAAAAAAAEAEASAgAAECAA=</HashCode>
+      <FileName>Assets\Scripts\ScoreboardScript.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WallScript">
+    <Position X="6" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\WallScript.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

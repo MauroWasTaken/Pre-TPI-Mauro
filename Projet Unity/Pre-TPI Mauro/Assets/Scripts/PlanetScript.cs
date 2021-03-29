@@ -1,12 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/// <summary>
+/// classe qui gere les planetes qui scrollent dans le fond
+/// </summary>
 public class PlanetScript : MonoBehaviour
 {
     [SerializeField]
     float speed;
-    // Update is called once per frame
+    /// <summary>
+    /// Fonction de base de unity lancée à chaque fois qu'il y a une nouvelle image
+    /// cette fonction s'occupe de faire scroller les planetes et les mettres à des entroits aleatoires
+    /// </summary>
     void Update()
     {
         if (this.gameObject.transform.position.y <= -30)

@@ -4,7 +4,9 @@ using UnityEngine;
 using TMPro;
 using System;
 using UnityEngine.UI;
-
+/// <summary>
+/// Classe qui gere toutes les parties du jeu
+/// </summary>
 public class GameScript : MonoBehaviour
 {
 
@@ -56,6 +58,7 @@ public class GameScript : MonoBehaviour
     private bool isPaused = false;
     private bool nextLevel = false;
     public int nbPlayers = 1;
+    public int laserType = 0;
     //level loading variables
     private int level;
     private bool enemyMad;
@@ -67,18 +70,27 @@ public class GameScript : MonoBehaviour
     public bool SoloPlay1 { get => SoloPlay; }
 
 
-    // Start is called before the first frame update
+    /// <summary>
+    /// fonction de base de unity qui est appelée quand l'objet player est instancié
+    /// lance le menu principale
+    /// </summary>
     void Start()
     {
         ChangeGameState(1);
     }
 
-    // Update is called once per frame
+    /// <summary>
+    /// fonction de base de unity qui est appelée à chaque image
+    /// appele la fonction qui gere le comportement du jeu
+    /// </summary>
     void Update()
     {
-
         UpdateGameState();
     }
+    /// <summary>
+    /// classe permettante de changer le Gamestate avec une preparation pour chacun des types
+    /// </summary>
+    /// <param name="stateToChange">etat à changer</param>
     public void ChangeGameState(int stateToChange)
     {
         if (isPaused)
@@ -113,6 +125,9 @@ public class GameScript : MonoBehaviour
                 deathTimer[0] = 0;
                 deathTimer[1] = 0;
                 deathTimer[2] = 0;
+                playerAlive[0] = false;
+                playerAlive[1] = false;
+                playerAlive[2] = false;
                 level = 0;
                 comboMultipier = 0;
                 AddScore(-score);
@@ -130,6 +145,9 @@ public class GameScript : MonoBehaviour
         }
         gameState = stateToChange;
     }
+    /// <summary>
+    /// fonction qui gere le comportement du jeu pour chaque gamestate
+    /// </summary>
     private void UpdateGameState()
     {
         /// <summary>
@@ -150,6 +168,7 @@ public class GameScript : MonoBehaviour
                     levelTransition.SetActive(false);
                     if (nbPlayers == 2)
                     {
+                        if(deathTimer[1] >= 0 & deathTimer[2] >= 0) playerLives++;
                         if (deathTimer[1] >= 0) SpawnPlayer(1);
                         if (deathTimer[2] >= 0) SpawnPlayer(2);
                     }
@@ -205,6 +224,9 @@ public class GameScript : MonoBehaviour
         }
         transitionTimer += Time.deltaTime;
     }
+    /// <summary>
+    /// fonction qui commence un nouveau niveau et spawn les ennemis
+    /// </summary>
     void LevelStart()
     {
         switch (level % 5)
@@ -231,6 +253,10 @@ public class GameScript : MonoBehaviour
                 break;
         }
     }
+    /// <summary>
+    /// spawn des rangée d'ennemis 
+    /// </summary>
+    /// <param name="rows">nombre de rangées</param>
     void SpawnEnemies(int rows)
     {
         for (int i = 0; i < rows; i++)
@@ -242,6 +268,10 @@ public class GameScript : MonoBehaviour
             }
         }
     }
+    /// <summary>
+    /// ajoute des points dans le score du joueur
+    /// </summary>
+    /// <param name="value"> points à ajouter</param>
     public void AddScore(int value)
     {
         if (value == 100)
@@ -257,12 +287,18 @@ public class GameScript : MonoBehaviour
         comboLabel.GetComponent<TextMeshProUGUI>().enabled = comboMultipier >= 4;
         comboLabel.GetComponent<TextMeshProUGUI>().text = "Current Combo : " + comboMultipier;
     }
+    /// <summary>
+    /// fonction qui arrete le combo
+    /// </summary>
     public void ComboBreaker()
     {
         comboMultipier = 0;
         comboLabel.GetComponent<TextMeshProUGUI>().enabled = false;
     }
-
+    /// <summary>
+    /// fonction appelée quand un joueur est mort
+    /// </summary>
+    /// <param name="playerId">id du joueur mort</param>
     public void PlayerKilled(int playerId)
     {
         PlaySound(2);
@@ -286,6 +322,9 @@ public class GameScript : MonoBehaviour
             ChangeGameState(3);
         }
     }
+    /// <summary>
+    /// check si les joueur peuvent spawn
+    /// </summary>
     private void CheckSpawns()
     {
         if (nbPlayers == 2)
@@ -316,7 +355,10 @@ public class GameScript : MonoBehaviour
 
 
     }
-
+    /// <summary>
+    /// spawn un vaisseau de joueur
+    /// </summary>
+    /// <param name="playerId">id du joueur à spawn</param>
     public void SpawnPlayer(int playerId)
     {
         if (playerLives > 0)
@@ -330,6 +372,9 @@ public class GameScript : MonoBehaviour
             deathTime = 0.75f;
         }
     }
+    /// <summary>
+    /// lance / cache le menu pause 
+    /// </summary>
     public void TogglePause()
     {
         PauseScript[] pause = Resources.FindObjectsOfTypeAll<PauseScript>();
@@ -351,7 +396,7 @@ public class GameScript : MonoBehaviour
         }
     }
     /// <summary>
-    /// 
+    /// Joue les sons du jeu
     /// </summary>
     /// <param name="soundID">0-Lazer sound,1-Menu sound,2-player Death, 3- Enemy death</param>
     public void PlaySound(int soundID)
